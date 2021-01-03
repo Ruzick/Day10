@@ -1,0 +1,23 @@
+{% block content %}
+    <form method="post">
+    <p>Ticker symbol: <input type='text' name='ticker' placeholder='BRK.B' /></p>
+    <p>
+    <input type='checkbox' name='features' value='close'} /> Closing price <br />
+    <input type='checkbox' name='features' value='adjusted close'} /> Adjusted closing price <br />
+    <input type='checkbox' name='features' value='open'} /> Opening price <br />
+    <input type='checkbox' name='features' value='high'} />High <br />
+    <input type='checkbox' name='features' value='low'} />Low<br />
+    <p> Pick one of the available months </p>
+    <p>
+    <input type="radio" name="month" id="7" value=7> July </input><br>
+    <input type="radio" name="month" id="8" value=8> August </input><br>
+    <input type="radio" name="month" id="9" value=9> September</input><br>
+    <input type="radio" name="month" id="10" value=10> October </input><br>
+    <input type="radio" name="month" id="11" value=11> November </input><br>
+    <input type="radio" name="month" id="12" value=12> December </input><br>
+    </p>
+    <p><input type="submit" value="Submit"></p>
+    </form>
+
+
+    {% endblock content %}
