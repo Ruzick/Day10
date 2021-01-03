@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, redirect, request
 import requests
+import config
 import json 
 import pandas as pd
 import numpy as np
@@ -7,6 +8,7 @@ from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource
 from bokeh.models.tools import HoverTool
+from twython import Twython, TwythonError
 # select a palette
 from bokeh.palettes import Dark2_5 as palette
 # itertools handles the cycling
@@ -29,12 +31,14 @@ def index():
         # f.close()
         plots = [ ]
         plots.append(make_plot(features, month))
+        
         return render_template('dashboard.html', plots=plots)
         #*********************************************************************************************
 def make_plot(userfeatures, usermonth):
-        key1 = config.key1
+    
         ticker = str(request.form['ticker'])
-        url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={}&apikey={}'.format(ticker, key1)
+        key  = Twython(config.api_key)
+        url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={}&apikey={}'.format(ticker, key)
         response = requests.get(url)
         db=response.json()
         df = pd.json_normalize(db)
