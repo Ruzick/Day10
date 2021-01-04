@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, request
 import requests
 import os #to access environmental variables through heroku
-#import config  comented for heroku
+#import config  *comented out for heroku
 import json 
 import pandas as pd
 import numpy as np
@@ -9,7 +9,7 @@ from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource
 from bokeh.models.tools import HoverTool
-#from twython import Twython, TwythonError commented out for Heroku
+#from twython import Twython, TwythonError *commented out for Heroku
 # select a palette
 from bokeh.palettes import Dark2_5 as palette
 # itertools handles the cycling
@@ -22,7 +22,8 @@ def index():
 
     if request.method == 'GET':
         return render_template('app_index.html')
-    else:
+    #else:
+    if request.method == 'POST': #new fix from line 25 original
         # request was a POST
         features= request.form.getlist('features')
         month = int(request.form['month'])
@@ -30,11 +31,14 @@ def index():
         # f.write('Stock: %s\n'%(features))
         # f.write('Month: %s\n\n'%(month))
         # f.close()
-        plots = [ ]
-        plots.append(make_plot(features, month))
+        # plots = [ ]
+        plot = make_plot(features, month) #new line
+        #plots.append(make_plot(features, month))
         
-        return render_template('dashboard.html', plots=plots)
+        return render_template('dashboard.html', plots=plot) 
         #*********************************************************************************************
+    else: return render_template('dashboard.html', plots=plot) #new just to have a return
+
 def make_plot(userfeatures, usermonth):
     
         ticker = str(request.form['ticker'])
@@ -76,11 +80,11 @@ def make_plot(userfeatures, usermonth):
         source = ColumnDataSource(usdf)
         colors = itertools.cycle(palette)    
         p = figure(title=str(ticker), x_axis_type='datetime', plot_width=800, plot_height=350)
-      
+        plots = [ ]
         for element in userfeatures:
             p.line('Date',element, source=source,legend_label=element,line_color=next(colors))
-
-        return show(p)
+            plots.append(show(p)) #added
+        return plots
 
 
 if  __name__ == '__main__' :
