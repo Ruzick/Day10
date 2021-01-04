@@ -15,15 +15,15 @@ from bokeh.palettes import Dark2_5 as palette
 # itertools handles the cycling
 import itertools 
 #app
-app = Flask(__name__)
-@app.route('/', methods=['GET', 'POST'])
+appHero = Flask(__name__)
+@appHero.route('/', methods=['GET', 'POST'])
 #app.config['SECRET_KEY'] = '0000'
 def index():
 
     if request.method == 'GET':
         return render_template('app_index.html')
-    #else:
-    if request.method == 'POST': #new fix from line 25 original
+    else:
+    #if request.method == 'POST': #new fix from line 25 original
         # request was a POST
         features= request.form.getlist('features')
         month = int(request.form['month'])
@@ -35,8 +35,7 @@ def index():
         
         return render_template('dashboard.html', plots=plots) 
         #*********************************************************************************************
-    else: 
-        return render_template('dashboard.html', plots=plots) #new just to have a return
+
 
 def make_plot(userfeatures, usermonth):
     
