@@ -31,18 +31,18 @@ def index():
         # f.write('Stock: %s\n'%(features))
         # f.write('Month: %s\n\n'%(month))
         # f.close()
-        plots = [ ]
-        plots.append(make_plot(features, month))
+        plots = make_plot(features, month)
         
         return render_template('dashboard.html', plots=plots) 
         #*********************************************************************************************
-    else: return render_template('dashboard.html', plots=plots) #new just to have a return
+    else: 
+        return render_template('dashboard.html', plots=plots) #new just to have a return
 
 def make_plot(userfeatures, usermonth):
     
         ticker = str(request.form['ticker'])
         #key  = Twython(config.api_key) commented for heroku
-        key = os.environ.get['api_key'] #only with heroku
+        key = os.environ['api_key'] #only with heroku
         url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={}&apikey={}'.format(ticker, key)
         response = requests.get(url)
         db=response.json()
@@ -79,11 +79,11 @@ def make_plot(userfeatures, usermonth):
         source = ColumnDataSource(usdf)
         colors = itertools.cycle(palette)    
         p = figure(title=str(ticker), x_axis_type='datetime', plot_width=800, plot_height=350)
-      
+        plots=[]
         for element in userfeatures:
             p.line('Date',element, source=source,legend_label=element,line_color=next(colors))
-
-        return show(p)
+            plots.append(show(p))
+        return plots
 
 
 if  __name__ == '__main__' :
