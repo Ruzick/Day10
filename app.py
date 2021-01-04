@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, request
 import requests
-import config
+import os #to access environmental variables through heroku
+#import config  comented for heroku
 import json 
 import pandas as pd
 import numpy as np
@@ -37,7 +38,8 @@ def index():
 def make_plot(userfeatures, usermonth):
     
         ticker = str(request.form['ticker'])
-        key  = Twython(config.api_key)
+        #key  = Twython(config.api_key) commented for heroku
+        key = os.environ.get['api_key'] #only with heroku
         url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={}&apikey={}'.format(ticker, key)
         response = requests.get(url)
         db=response.json()
