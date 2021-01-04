@@ -9,7 +9,7 @@ from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource
 from bokeh.models.tools import HoverTool
-from twython import Twython, TwythonError
+#from twython import Twython, TwythonError commented out for Heroku
 # select a palette
 from bokeh.palettes import Dark2_5 as palette
 # itertools handles the cycling
