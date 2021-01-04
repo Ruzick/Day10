@@ -1,1 +1,1 @@
-web: gunicorn appHero:app --preload
+web: gunicorn appHero:appHero --preload
