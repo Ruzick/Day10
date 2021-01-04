@@ -15,8 +15,8 @@ from bokeh.palettes import Dark2_5 as palette
 # itertools handles the cycling
 import itertools 
 #app
-appHero = Flask(__name__)
-@appHero.route('/', methods=['GET', 'POST'])
+app = Flask(__name__)
+@app.route('/', methods=['GET', 'POST'])
 #app.config['SECRET_KEY'] = '0000'
 def index():
 
@@ -86,5 +86,5 @@ def make_plot(userfeatures, usermonth):
 
 
 if  __name__ == '__main__' :
-    appHero.run( port=33507)
+    app.run( port=33507)
 
