@@ -31,13 +31,12 @@ def index():
         # f.write('Stock: %s\n'%(features))
         # f.write('Month: %s\n\n'%(month))
         # f.close()
-        # plots = [ ]
-        plot = make_plot(features, month) #new line
-        #plots.append(make_plot(features, month))
+        plots = [ ]
+        plots.append(make_plot(features, month))
         
-        return render_template('dashboard.html', plots=plot) 
+        return render_template('dashboard.html', plots=plots) 
         #*********************************************************************************************
-    else: return render_template('dashboard.html', plots=plot) #new just to have a return
+    else: return render_template('dashboard.html', plots=plots) #new just to have a return
 
 def make_plot(userfeatures, usermonth):
     
@@ -80,11 +79,11 @@ def make_plot(userfeatures, usermonth):
         source = ColumnDataSource(usdf)
         colors = itertools.cycle(palette)    
         p = figure(title=str(ticker), x_axis_type='datetime', plot_width=800, plot_height=350)
-        plots = [ ]
+      
         for element in userfeatures:
             p.line('Date',element, source=source,legend_label=element,line_color=next(colors))
-            plots.append(show(p)) #added
-        return plots
+
+        return show(p)
 
 
 if  __name__ == '__main__' :
