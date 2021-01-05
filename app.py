@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, request
 import requests
 import os #to access environmental variables through heroku
-#import config  *comented out for heroku
+import config  #*comented out for heroku
 import json 
 import pandas as pd
 import numpy as np
@@ -23,14 +23,9 @@ def index():
     if request.method == 'GET':
         return render_template('app_index.html')
     else:
-    #if request.method == 'POST': #new fix from line 25 original
         # request was a POST
         features= request.form.getlist('features')
         month = int(request.form['month'])
-        # f = open('%s_%s.txt'%(features,month),'w')
-        # f.write('Stock: %s\n'%(features))
-        # f.write('Month: %s\n\n'%(month))
-        # f.close()
         plots = []
         plots.append(make_plot(features, month))
         
@@ -41,7 +36,7 @@ def index():
 def make_plot(userfeatures, usermonth):
     
         ticker = str(request.form['ticker'])
-        #key  = Twython(config.api_key) commented for heroku
+        #key  = config.api_key# commented for heroku
         key = os.environ['api_key'] #only with heroku
         url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={}&apikey={}'.format(ticker, key)
         response = requests.get(url)
@@ -67,9 +62,6 @@ def make_plot(userfeatures, usermonth):
         df = df.rename_axis("Date", axis="columns")
         df.columns = ['adjusted close', 'close', 'dividend amount', 'high','low','open', 'split coefficient', 'volume']
 
-        #us = user input 
-        # a = request.form.getlist('features')
-        # usmonth = int(request.form['month'])
         df.index = pd.to_datetime(df.index)
         usdf=df[df.index.month == usermonth]
         #output_file('Day10.html')
