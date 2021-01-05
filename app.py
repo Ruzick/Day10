@@ -17,7 +17,7 @@ import itertools
 #app
 app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
-#app.config['SECRET_KEY'] = '0000'
+
 def index():
 
     if request.method == 'GET':
