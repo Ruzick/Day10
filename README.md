@@ -7,3 +7,5 @@ Make a config.py file to store your api key to use locally; and store in heroku 
         #key  = config.api_key# commented for heroku
         
         key = os.environ['api_key'] #only with heroku
+
+Also in the layout.html, change the link from http to https when running in Heroku.
